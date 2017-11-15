@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+#define REP(i, n) for(int i=0; i<(n); i++)
+using namespace std;
+typedef long long ll;
+
+int za1, zb1, za2, zb2;
+ll x;
+
+inline T* E(T* & p) {
+    if(p == nullptr) p = new T;
+    return p;
+}
+
+inline ll gcc(ll a, ll b) {
+    while(b != 0) {
+	ll temp = b;
+	b = a%b;
+	a = temp;
+    }
+    return a;
+}
+
+struct Tree1Node {
+    Tree1Node *left, *right;
+    ll val;
+    ~Tree1Node() { delete left; delete right; }
+
+    void set(int wa, int wb) {
+	if(za1 < wa || wb < za1) return;
+	if(wa == wb) {
+	    val = x;
+	    return;
+	}
+	int sr = (wa + wb) / 2;
+	E<Tree1Node>(left)->set(wa, sr);
+	E<Tree1Node>(right)->set(sr + 1, wb);
+	val = gcc(E<Tree1Node>(left)->val, E<Tree1Node>(right)->val);
+    }
+
+    ll get(int wa, int wb) {
+	if(zb1 < wa || wb < za1) return 0;
+	if(za1 <= wa && wb <= zb1) return val;
+	int sr = (wa + wb) / 2;
+	return gcc(E<Tree1Node>(left)->get(wa, sr),
+		   E<Tree1Node>(right)->get(sr + 1, wb));
+    }
+};
+
+struct Tree1 {
+    int n;
+    Tree1Node* root;
+    Tree1(int n_) : n(n_) {}
+    ~Tree1() { delete root; }
+    void set(int p, ll v) {
+	x = v; za1 = p;
+	E(root)->set(0, n - 1);
+    }
+    ll get(int a, int b) {
+        za1 = a; zb1 = b;
+        return E(root)->get(0, n - 1);
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    
+    Tree1 tr(1000*1000*1000);
+    tr.set(10000, 20);
+    tr.set(1000*1000, 32);
+    cout << tr.get(1000, 10000000) << endl;
+}

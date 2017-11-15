@@ -1,0 +1,8 @@
+* Chapter 1.
+
+** 1-2.
+
+Now it's harder to imagine, what we want to achieve - we need to
+deduce, how the picture should look like, before actually seeing it,
+whilst with the numbers we could easily decide, where each tile should go.
+
